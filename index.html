@@ -1441,22 +1441,22 @@
     });
 
   // StackOverflow API
-  fetch("https://api.stackexchange.com/2.3/users/31598278?site=stackoverflow")
-    .then(res => res.json())
-    .then(data => {
-      const user = data.items[0];
-      document.getElementById("profile-grid").innerHTML += `
-        <div class="profile-card">
-          <img src="${user.profile_image}" alt="StackOverflow Avatar" class="avatar">
-          <h3>${user.display_name} 
-            <img src="images/stackoverflow-logo.png" alt="Stack Logo" class="platform-icon">
-          </h3>
-          <p>Developer Community Member</p>
-          <p>🏆 Reputation: ${user.reputation}</p>
-          <a href="${user.link}" target="_blank" class="stack">StackOverflow Profilim</a>
-        </div>
-      `;
-    });
+fetch("https://api.stackexchange.com/2.3/users/31598278?site=stackoverflow")
+  .then(res => res.json())
+  .then(data => {
+    const user = data.items[0];
+    document.getElementById("profile-grid").innerHTML += `
+      <div class="profile-card">
+        <img src="images/stackoverflow-avatar.png" alt="StackOverflow Avatar" class="avatar">
+        <h3>${user.display_name} 
+          <img src="images/stackoverflow-logo.png" alt="Stack Logo" class="platform-icon">
+        </h3>
+        <p>Developer Community Member</p>
+        <p>🏆 Reputation: ${user.reputation}</p>
+        <a href="${user.link}" target="_blank" class="stack">StackOverflow Profilim</a>
+      </div>
+    `;
+  });
 
   // Kaggle (statik)
   document.getElementById("profile-grid").innerHTML += `
@@ -3635,4 +3635,5 @@ Segmentasyon (Multi-Otsu, Chan-Vese, Morphological Snakes)</p>
 </script>
 
 </html>
+
 
