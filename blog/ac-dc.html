@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AC ve DC Güç Farkı: Günlük Hayatta ve Endüstride Kullanım Alanları</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.7;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 🌈 Animasyonlu gradient arka plan */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 800% 800%;
+      animation: gradientFlow 20s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 🔄 Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 600% 600%;
+      animation: gradientShift 5s ease infinite;
+      z-index: 9999;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .loader-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    /* Header */
+    .blog-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      color: white;
+    }
+
+    .blog-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .blog-meta {
+      margin-top: 12px;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .blog-meta span.author {
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+
+    .blog-content {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+    }
+
+    .blog-content h2 {
+      margin-top: 35px;
+      color: #444;
+      font-size: 1.6rem;
+      border-left: 6px solid #667eea;
+      padding-left: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .blog-content h2::before {
+      content: "⚡";
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .blog-content p, 
+    .blog-content li {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .blog-content ul {
+      padding-left: 20px;
+    }
+
+    .formula-box {
+      font-size: 1.1rem;
+      background: #f7f9fc;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+      margin: 20px 0;
+      font-family: "Courier New", monospace;
+    }
+
+    .image-box {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .image-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #667eea;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      transform: translateX(-3px);
+    }
+  </style>
+
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<body>
+  <!-- 🔄 Loader -->
+  <div id="loader">
+    <div class="loader-text">Yükleniyor...</div>
+  </div>
+
+  <header class="blog-header">
+    <h1>AC ve DC Güç Farkı: Günlük Hayatta ve Endüstride Kullanım Alanları</h1>
+    <p class="blog-meta">📅 1 Ekim 2025 | ✍️ <span class="author">Doğukan Avcı</span> | ⏱️ 14 dk okuma</p>
+  </header>
+
+  <main class="blog-content">
+    <section>
+      <h2>AC ve DC’nin Temelleri</h2>
+      <p>
+        Elektrik enerjisi, modern yaşamın en temel yapı taşıdır. Fakat bu enerji iki ana formda karşımıza çıkar: 
+        <strong>Alternatif Akım (AC)</strong> ve <strong>Doğru Akım (DC)</strong>.  
+        AC, zamanla yön değiştiren bir akım türüdür ve genellikle sinüzoidal dalga formuna sahiptir.  
+        DC ise her zaman tek yönde akar ve sabit bir polariteye sahiptir.
+      </p>
+      <div class="image-box">
+        <img src="ac_dc_waveforms.png" alt="AC ve DC Dalga Formları">
+        <p><em>Şekil 1. AC sinüzoidal dalga ve DC sabit akım</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Matematiksel Tanımlar</h2>
+      <p>AC akım genellikle şu şekilde ifade edilir:</p>
+      <div class="formula-box">
+        \[
+        v(t) = V_{m} \cdot \sin(\omega t + \phi)
+        \]
+      </div>
+      <p>
+        Burada \(V_{m}\) tepe değer, \(\omega\) açısal frekans (\(2\pi f\)), \(\phi\) ise faz açısıdır.  
+        DC akım ise basitçe sabit bir değerdir:
+      </p>
+      <div class="formula-box">
+        \[
+        V_{DC}(t) = V_{0}
+        \]
+      </div>
+      <p>
+        AC devrelerde efektif değer (RMS – Root Mean Square) çok önemlidir çünkü güç hesaplamaları bu değer üzerinden yapılır:
+      </p>
+      <div class="formula-box">
+        \[
+        V_{rms} = \frac{V_{m}}{\sqrt{2}}
+        \]
+      </div>
+    </section>
+
+    <section>
+      <h2>Güç Hesaplamaları</h2>
+      <p>
+        DC devrelerde güç basitçe Ohm kanununa dayanır:
+      </p>
+      <div class="formula-box">
+        \[
+        P = V \cdot I
+        \]
+      </div>
+      <p>
+        AC devrelerde ise güç, faz açısına bağlı olarak aktif ve reaktif bileşenlere ayrılır:
+      </p>
+      <div class="formula-box">
+        \[
+        P = V_{rms} \cdot I_{rms} \cdot \cos \phi
+        \]
+      </div>
+      <p>
+        Burada \(\cos \phi\) güç faktörünü ifade eder ve enerji verimliliğini doğrudan etkiler.
+      </p>
+      <div class="image-box">
+        <img src="ac_power_triangle.png" alt="AC Güç Üçgeni">
+        <p><em>Şekil 2. AC’de aktif, reaktif ve görünür güç ilişkisi</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Kullanım Alanları</h2>
+      <ul>
+        <li><strong>DC:</strong> Bataryalar, bilgisayarlar, cep telefonları, elektrikli araçlar.</li>
+        <li><strong>AC:</strong> Elektrik iletim hatları, evlerimizdeki prizler, büyük endüstriyel motorlar.</li>
+      </ul>
+      <p>
+        Günlük hayatta kullandığımız birçok cihaz aslında AC şebekeden beslense bile içlerinde doğrultucu devrelerle 
+        DC’ye dönüştürülür. Bu yüzden güç elektroniği, AC-DC dönüşümlerinde kritik bir mühendislik alanıdır.
+      </p>
+      <div class="image-box">
+        <img src="rectifier_circuit.png" alt="Doğrultucu Devre">
+        <p><em>Şekil 3. AC’yi DC’ye çeviren temel doğrultucu devre</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>İleri Seviye Perspektif</h2>
+      <p>
+        AC ve DC tartışması aslında yalnızca tarihsel bir rekabet olmaktan çıkıp günümüzde karmaşık bir mühendislik konusu haline gelmiştir. 
+        AC’nin avantajı transformatörlerle kolayca farklı voltaj seviyelerine dönüştürülebilmesiyken, modern güç elektroniği devreleri sayesinde 
+        DC de pek çok alanda yeniden önem kazanmıştır.
+      </p>
+      <p>
+        <strong>Doğrultucular</strong>, <strong>inverterler</strong> ve <strong>DC-DC dönüştürücüler</strong> sayesinde AC ve DC sürekli olarak birbirine dönüştürülmektedir. 
+        Elektrikli araçlarda bataryalar DC enerji depolar, fakat motorlar genellikle AC çalışır. Bu nedenle güçlü inverter devreleriyle DC → AC dönüşümü yapılır. 
+        Aynı mantıkla, güneş panelleri DC üretir, bu enerji inverterlerle AC’ye çevrilerek şebekeye aktarılır.
+      </p>
+      <div class="image-box">
+        <img src="power_electronics_blocks.png" alt="Güç Elektroniği Katmanları">
+        <p><em>Şekil 4. Güç elektroniği dönüşüm blokları</em></p>
+      </div>
+      <p>
+        <strong>HVDC (High Voltage Direct Current)</strong> sistemleri ise enerji iletiminde yeni bir çağ açmıştır. 
+        Çok uzun mesafe ve deniz altı kablolarında AC yerine DC iletim tercih edilmekte, böylece kayıplar minimuma indirilmektedir. 
+        Avrupa’da ülkeler arası elektrik alışverişinde HVDC hatları yaygın olarak kullanılmaktadır.
+      </p>
+      <div class="image-box">
+        <img src="hvdc_converter.png" alt="HVDC Dönüştürücü">
+        <p><em>Şekil 5. HVDC dönüştürücü istasyonları</em></p>
+      </div>
+      <p>
+        Gelecekte akıllı şebekeler (Smart Grid) ve enerji depolama teknolojileri (bataryalar, süperkapasitörler, hidrojen yakıt hücreleri) 
+        sayesinde AC ve DC altyapılar hibrit sistemler halinde birlikte kullanılacaktır. Güç elektroniği burada köprü işlevi görerek hem 
+        verimli hem de esnek enerji yönetimini mümkün kılacaktır.
+      </p>
+    </section>
+
+    <section>
+      <h2>Özet</h2>
+      <p>
+        AC ve DC, elektrik enerjisinin iki temel formudur.  
+        AC uzak mesafelere iletimde verimli ve pratiktir, DC ise elektronik cihazlarda güvenilir ve stabildir.  
+        Geleceğin enerji sistemlerinde her ikisi de kritik rol oynamaya devam edecek;  
+        AC şebekeler dağıtımda, DC ise batarya tabanlı yenilenebilir enerji sistemlerinde önem kazanacaktır.
+      </p>
+    </section>
+
+    <a href="../Untitled-1.html" class="back-link">⬅️ Bloga Geri Dön</a>
+  </main>
+
+  <script>
+    window.addEventListener("load", function() {
+      const loader = document.getElementById("loader");
+      // en az 2 saniye beklet
+      setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.transform = "scale(1.2)";
+        setTimeout(() => loader.style.display = "none", 800);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Güvenliği: Nedir, Ne Değildir?</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.7;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 🌈 Gradient arka plan */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 800% 800%;
+      animation: gradientFlow 20s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 🔄 Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 600% 600%;
+      animation: gradientShift 5s ease infinite;
+      z-index: 9999;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .loader-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    /* Header */
+    .blog-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      color: white;
+    }
+
+    .blog-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .blog-meta {
+      margin-top: 12px;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .blog-meta span.author {
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+
+    .blog-content {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+    }
+
+    .blog-content h2 {
+      margin-top: 35px;
+      color: #444;
+      font-size: 1.6rem;
+      border-left: 6px solid #667eea;
+      padding-left: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .blog-content h2::before {
+      content: "🔐";
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .blog-content p, 
+    .blog-content li {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .blog-content ul {
+      padding-left: 20px;
+    }
+
+    .formula-box {
+      font-size: 1.1rem;
+      background: #f7f9fc;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+      margin: 20px 0;
+      font-family: "Courier New", monospace;
+    }
+
+    .image-box {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .image-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #667eea;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      transform: translateX(-3px);
+    }
+  </style>
+
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <!-- 🔄 Loader -->
+  <div id="loader">
+    <div class="loader-text">Yükleniyor...</div>
+  </div>
+
+  <header class="blog-header">
+    <h1>IoT Güvenliği: Nedir, Ne Değildir?</h1>
+    <p class="blog-meta">📅 27 Eylül 2025 | ✍️ <span class="author">Doğukan Avcı</span> | ⏱️ 11 dk okuma</p>
+  </header>
+
+  <main class="blog-content">
+    <section>
+      <h2>IoT’nin Yükselişi</h2>
+      <p>
+        IoT (Internet of Things), yani Nesnelerin İnterneti, milyarlarca cihazın birbirine bağlanıp veri alışverişi yapmasıyla hayatımıza girdi.  
+        Akıllı ev sistemlerinden endüstriyel otomasyona, sağlık cihazlarından akıllı şehir altyapısına kadar birçok alanda IoT çözümleri kullanılmaktadır.  
+        Ancak bu hızlı yayılım, güvenlik açıklarını da beraberinde getirmiştir.
+      </p>
+      <div class="image-box">
+        <img src="iot_network.png" alt="IoT Ağ Yapısı">
+        <p><em>Şekil 1. IoT cihazlarının oluşturduğu tipik bir ağ yapısı</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Temel Güvenlik Riskleri</h2>
+      <ul>
+        <li><strong>Zayıf Parolalar:</strong> Varsayılan şifreler ile çalışan cihazlar.</li>
+        <li><strong>Güncellenmeyen Yazılımlar:</strong> Firmware açıkları saldırılara davetiye çıkarır.</li>
+        <li><strong>Ağ Güvenliği Eksiklikleri:</strong> Şifrelenmemiş iletişim, paket dinlemeye (sniffing) açıktır.</li>
+        <li><strong>Fiziksel Güvenlik:</strong> Ele geçirilen cihazlardan ağa sızma imkanı.</li>
+      </ul>
+      <div class="image-box">
+        <img src="iot_risks.png" alt="IoT Riskleri">
+        <p><em>Şekil 2. IoT cihazlarındaki temel güvenlik açıkları</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Şifreleme ve Veri Güvenliği</h2>
+      <p>
+        IoT güvenliğinin en kritik bileşeni <strong>veri şifreleme</strong>dir.  
+        Veriler cihazdan buluta giderken genellikle TLS/SSL protokolleri ile korunur.  
+        Ayrıca cihaz içi verilerin bütünlüğünü korumak için hash algoritmaları kullanılır.
+      </p>
+      <div class="formula-box">
+        \[
+        C = E_{k}(M)
+        \quad , \quad
+        M = D_{k}(C)
+        \]
+      </div>
+      <p>
+        Burada \(M\) mesajı, \(C\) şifreli metni, \(E_k\) şifreleme fonksiyonunu ve \(D_k\) çözme fonksiyonunu ifade eder.
+      </p>
+      <div class="image-box">
+        <img src="iot_encryption.png" alt="IoT Şifreleme Mantığı">
+        <p><em>Şekil 3. IoT cihazlarında veri şifreleme süreci</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>IoT Güvenliğinde Önerilen Yöntemler</h2>
+      <ul>
+        <li>Güçlü parola politikaları ve çok faktörlü kimlik doğrulama.</li>
+        <li>Düzenli yazılım güncellemeleri ve OTA (Over-The-Air) yamaları.</li>
+        <li>Veri trafiği için uçtan uca şifreleme.</li>
+        <li>Ağ segmentasyonu ile IoT cihazlarını izole etme.</li>
+        <li>Anomali tespiti için yapay zeka tabanlı güvenlik izleme.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Endüstride IoT Güvenliği</h2>
+      <p>
+        Özellikle endüstride kullanılan IIoT (Industrial IoT) cihazları için güvenlik çok daha kritiktir.  
+        Bir üretim tesisinde güvenliği ihlal edilen sensörler veya kontrolörler, milyonlarca dolarlık zarara yol açabilir.  
+        Bu yüzden <strong>IEC 62443</strong> gibi güvenlik standartları geliştirilmiştir.
+      </p>
+      <div class="image-box">
+        <img src="iiot_security.png" alt="Endüstriyel IoT Güvenliği">
+        <p><em>Şekil 4. Endüstriyel IoT sistemlerinde güvenlik katmanları</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sonuç</h2>
+      <p>
+        IoT güvenliği, yalnızca teknoloji üreticilerinin değil, kullanıcıların da sorumluluğudur.  
+        Akıllı cihazlar hayatımızı kolaylaştırırken, kötü niyetli saldırılara da açık hale getirebilir.  
+        Güvenlik açıklarını en aza indirmek için standartlara uygun tasarım, sürekli güncelleme ve bilinçli kullanım şarttır.
+      </p>
+    </section>
+
+    <a href="../Untitled-1.html" class="back-link">⬅️ Bloga Geri Dön</a>
+  </main>
+
+  <script>
+    // Loader 2 saniye sonra kaybolacak
+    window.addEventListener("load", function() {
+      const loader = document.getElementById("loader");
+      setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.transform = "scale(1.2)";
+        setTimeout(() => loader.style.display = "none", 800);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

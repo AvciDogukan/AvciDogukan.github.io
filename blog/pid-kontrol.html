@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PID Kontrol Nedir, Nerelerde Kullanılır?</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.7;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 🌈 Animasyonlu gradient arka plan */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 800% 800%;
+      animation: gradientFlow 20s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 🔄 Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 600% 600%;
+      animation: gradientShift 5s ease infinite;
+      z-index: 9999;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .loader-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    /* Header */
+    .blog-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      color: white;
+    }
+
+    .blog-header h1 {
+      margin: 0;
+      font-size: 2.7rem;
+      font-weight: 700;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .blog-meta {
+      margin-top: 12px;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .blog-meta span.author {
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+
+    .blog-content {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+    }
+
+    .blog-content h2 {
+      margin-top: 35px;
+      color: #444;
+      font-size: 1.6rem;
+      border-left: 6px solid #667eea;
+      padding-left: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .blog-content h2::before {
+      content: "✨";
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .blog-content p, 
+    .blog-content li {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .blog-content ul {
+      padding-left: 20px;
+    }
+
+    .formula-box {
+      font-size: 1.1rem;
+      background: #f7f9fc;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+      margin: 20px 0;
+      font-family: "Courier New", monospace;
+    }
+
+    .image-box {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .image-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #667eea;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      transform: translateX(-3px);
+    }
+  </style>
+
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<body>
+  <!-- 🔄 Loader -->
+  <div id="loader">
+    <div class="loader-text">Yükleniyor...</div>
+  </div>
+
+  <header class="blog-header">
+    <h1>PID Kontrol Nedir, Nerelerde Kullanılır?</h1>
+    <p class="blog-meta">📅 30 Eylül 2025 | ✍️ <span class="author">Doğukan Avcı</span> | ⏱️ 12 dk okuma</p>
+  </header>
+
+  <main class="blog-content">
+    <section>
+      <h2>PID Kontrolün Temelleri</h2>
+      <p>
+        PID (Proportional–Integral–Derivative) kontrol, kontrol mühendisliğinin bel kemiğini oluşturan algoritmalardan biridir. 
+        Çalışma mantığı, sistemin hedeflenen değer ile gerçek değeri arasındaki farkı sürekli takip edip düzeltmeye dayanır. 
+        Yalnızca anlık hatayı değil, geçmişteki birikimi ve gelecekteki eğilimleri de hesaba katar. 
+        Bu yüzden, basit aç-kapa (on-off) kontrol yöntemlerinden çok daha hassas ve güvenilir sonuçlar üretir.
+      </p>
+    </section>
+
+    <section>
+      <h2>PID Denklemi</h2>
+      <div class="formula-box">
+        \[
+        u(t) = K_p \cdot e(t) + K_i \int_0^t e(\tau)\, d\tau + K_d \frac{de(t)}{dt}
+        \]
+      </div>
+      <p>
+        Burada <em>e(t)</em> hata sinyalidir. Yani setpoint ile gerçek ölçüm arasındaki farktır. 
+        PID bu hatayı üç farklı matematiksel terime ayırır:
+      </p>
+      <ul>
+        <li><strong>P (Proportional):</strong> Anlık hatayı düzeltir.</li>
+        <li><strong>I (Integral):</strong> Geçmişteki hataları biriktirerek uzun vadeli çözüm sağlar.</li>
+        <li><strong>D (Derivative):</strong> Gelecekteki değişim hızına tepki vererek salınımları azaltır.</li>
+      </ul>
+      <div class="image-box">
+        <img src="pid_block_diagram.png" alt="PID Blok Diyagramı">
+        <p><em>Şekil 1. PID kontrolörün blok diyagramı</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Kontrol Teorisi Perspektifi</h2>
+      <p>
+        Kontrol teorisinde bir sistemin kararlı olup olmadığı <strong>Bode diyagramı</strong>, 
+        <strong>Nyquist kriteri</strong> veya <strong>kök yer eğrisi (root locus)</strong> ile analiz edilir. 
+        PID bu yöntemlerle analiz edildiğinde basit ama güçlü bir davranış sergiler. 
+        Proportional kazanç sistemi hızlandırır, integral kazanç kalıcı hatayı ortadan kaldırır, türev ise sistemin 
+        aşırı dalgalanmasını engeller.
+      </p>
+    </section>
+
+    <section>
+      <h2>Uçaklarda ve İHA’larda PID Kullanımı</h2>
+      <p>
+        Uçuş kontrol bilgisayarlarında PID, <strong>uçakların pitch, roll ve yaw hareketlerinin dengelenmesi</strong> için kritik rol oynar.  
+        Otomatik pilot sistemleri genellikle PID tabanlıdır. Türbülans veya ani rüzgar değişimlerine rağmen uçağın stabil kalmasını sağlar.  
+        İnsansız hava araçlarında ise PID döngüleri saniyede yüzlerce kez çalıştırılır. Bu kadar hızlı bir geri besleme olmazsa, 
+        quadcopter gibi araçlar dengesini kaybedip devrilebilir.
+      </p>
+      <div class="image-box">
+        <img src="drone_pid.png" alt="Drone PID Kontrolü">
+        <p><em>Şekil 2. Drone’da eksen kontrolü için PID</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>PID Ayar Yöntemleri</h2>
+      <p>
+        PID kontrolün başarısı, kazanç parametrelerinin doğru ayarlanmasına bağlıdır. Bunun için farklı yöntemler geliştirilmiştir:
+      </p>
+      <ul>
+        <li><strong>Ziegler–Nichols:</strong> Kritik kazanç ve periyot üzerinden deneysel ayar yapılır.</li>
+        <li><strong>Cohen–Coon:</strong> Özellikle kimya ve proses endüstrisinde kullanılır.</li>
+        <li><strong>Modern Yöntemler:</strong> Yapay zeka, optimizasyon algoritmaları ve genetik yöntemler otomatik ayar için devreye girmiştir.</li>
+      </ul>
+      <div class="image-box">
+        <img src="ziegler_nichols.png" alt="Ziegler-Nichols Ayarı">
+        <p><em>Şekil 3. Ziegler–Nichols PID ayar yöntemi</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Özet</h2>
+      <p>
+        PID kontrol, basit yapısına rağmen hem günlük cihazlarda hem de ileri mühendislik uygulamalarında vazgeçilmezdir.  
+        Uçaklarda otomatik pilot sistemleri, robot kolları, enerji santralleri ve savunma sanayisi uygulamaları PID’nin ne kadar kritik olduğunu gösterir.  
+        Gelecekte yapay zeka tabanlı kontrol algoritmaları artsa da, PID’nin <em>kararlılık, sadelik ve güvenilirlik</em> avantajı onu her zaman sahada tutacaktır.
+      </p>
+    </section>
+
+    <a href="../Untitled-1.html" class="back-link">⬅️ Bloga Geri Dön</a>
+  </main>
+
+  <script>
+    // Sayfa yüklenince loader 2 saniye gösterilip fade-out olur
+    window.addEventListener("load", function() {
+      const loader = document.getElementById("loader");
+      setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.transform = "scale(1.2)";
+        setTimeout(() => loader.style.display = "none", 800);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

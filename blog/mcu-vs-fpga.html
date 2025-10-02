@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mikrodenetleyici vs. FPGA: Hangisini Ne Zaman Tercih Etmeliyiz?</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.7;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 🌈 Gradient arka plan */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 800% 800%;
+      animation: gradientFlow 20s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 🔄 Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #667eea, #764ba2, #20c997, #ff6b6b);
+      background-size: 600% 600%;
+      animation: gradientShift 5s ease infinite;
+      z-index: 9999;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .loader-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    /* Header */
+    .blog-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      color: white;
+    }
+
+    .blog-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .blog-meta {
+      margin-top: 12px;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .blog-meta span.author {
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+
+    .blog-content {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+    }
+
+    .blog-content h2 {
+      margin-top: 35px;
+      color: #444;
+      font-size: 1.6rem;
+      border-left: 6px solid #667eea;
+      padding-left: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .blog-content h2::before {
+      content: "🔧";
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .blog-content p, 
+    .blog-content li {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .blog-content ul {
+      padding-left: 20px;
+    }
+
+    .formula-box {
+      font-size: 1.1rem;
+      background: #f7f9fc;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+      margin: 20px 0;
+      font-family: "Courier New", monospace;
+    }
+
+    .image-box {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .image-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #667eea;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      transform: translateX(-3px);
+    }
+  </style>
+
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <!-- 🔄 Loader -->
+  <div id="loader">
+    <div class="loader-text">Yükleniyor...</div>
+  </div>
+
+  <header class="blog-header">
+    <h1>Mikrodenetleyici vs. FPGA: Hangisini Ne Zaman Tercih Etmeliyiz?</h1>
+    <p class="blog-meta">📅 28 Eylül 2025 | ✍️ <span class="author">Doğukan Avcı</span> | ⏱️ 10 dk okuma</p>
+  </header>
+
+  <main class="blog-content">
+    <section>
+      <h2>Mikrodenetleyici Nedir?</h2>
+      <p>
+        Mikrodenetleyici (MCU), CPU, bellek (RAM/ROM) ve çevresel arabirimleri tek bir çipte barındıran gömülü sistem bileşenidir.  
+        Düşük maliyetli, düşük güç tüketimli ve programlanabilir yapısıyla sensörlerden ev aletlerine kadar geniş bir kullanım alanına sahiptir.
+      </p>
+      <div class="image-box">
+        <img src="mcu_example.png" alt="Mikrodenetleyici Örneği">
+        <p><em>Şekil 1. Tipik bir 32-bit ARM tabanlı mikrodenetleyici</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>FPGA Nedir?</h2>
+      <p>
+        FPGA (Field Programmable Gate Array), programlanabilir donanım mimarisine sahip çiplerdir.  
+        İçlerindeki lojik bloklar ve bağlantılar kullanıcı tarafından HDL (VHDL/Verilog) ile yeniden tanımlanabilir.  
+        Bu sayede paralel hesaplamalar ve yüksek hızlı veri işleme görevleri için idealdir.
+      </p>
+      <div class="image-box">
+        <img src="fpga_example.png" alt="FPGA Çipi">
+        <p><em>Şekil 2. Modern bir FPGA kartı</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Mikrodenetleyici vs. FPGA: Temel Farklar</h2>
+      <ul>
+        <li><strong>Mikrodenetleyici:</strong> Sıralı (serial) işlem yapar, yazılım odaklıdır.</li>
+        <li><strong>FPGA:</strong> Paralel işlem yapabilir, donanım seviyesinde özelleştirilebilir.</li>
+        <li><strong>MCU:</strong> Düşük güç tüketimi, ucuz maliyet, kolay programlama (C/C++).</li>
+        <li><strong>FPGA:</strong> Yüksek hız, deterministik gecikme süreleri, gerçek zamanlı büyük veri işleme.</li>
+      </ul>
+      <div class="image-box">
+        <img src="mcu_vs_fpga.png" alt="Mikrodenetleyici vs FPGA Karşılaştırması">
+        <p><em>Şekil 3. MCU ve FPGA’nin işleme mantıkları</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Performans Karşılaştırması</h2>
+      <p>
+        FPGA’ler, özellikle sinyal işleme ve makine öğrenmesi hızlandırıcılarında tercih edilir.  
+        Örneğin, bir görüntü işleme algoritmasında mikrodenetleyici saniyede birkaç yüz işlem yapabilirken FPGA milyonlarca işlemi paralel olarak gerçekleştirebilir.
+      </p>
+      <div class="formula-box">
+        \[
+        \text{MCU Performansı} \approx f_{clk} \times \text{IPC} 
+        \]
+        \[
+        \text{FPGA Performansı} \approx N_{parallel} \times f_{clk}
+        \]
+      </div>
+      <p>
+        Burada \( f_{clk} \) saat frekansı, \( IPC \) bir döngüdeki işlem sayısı, \( N_{parallel} \) ise paralel devre sayısını ifade eder.
+      </p>
+    </section>
+
+    <section>
+      <h2>Kullanım Alanları</h2>
+      <ul>
+        <li><strong>MCU:</strong> IoT cihazları, ev otomasyonu, motor kontrolü, sensör okuma.</li>
+        <li><strong>FPGA:</strong> Radar sinyal işleme, video kodlama, kriptografi hızlandırma, yüksek hızlı haberleşme protokolleri.</li>
+      </ul>
+      <div class="image-box">
+        <img src="applications.png" alt="MCU ve FPGA Kullanım Alanları">
+        <p><em>Şekil 4. MCU ve FPGA’nin sektör bazlı kullanım alanları</em></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sonuç</h2>
+      <p>
+        Mikrodenetleyiciler, düşük maliyetli ve düşük güç tüketimli uygulamalar için idealdir.  
+        FPGA’ler ise yüksek hız, paralel işlem ve donanım özelleştirme gerektiren görevlerde öne çıkar.  
+        Günümüzde hibrit çözümler de yaygındır: MCU + FPGA kombinasyonları, sistemin hem esnek hem de güçlü olmasını sağlar.
+      </p>
+    </section>
+
+    <a href="../Untitled-1.html" class="back-link">⬅️ Bloga Geri Dön</a>
+  </main>
+
+  <script>
+    // Loader’ı 2 saniye göster sonra kaybolsun
+    window.addEventListener("load", function() {
+      const loader = document.getElementById("loader");
+      setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.transform = "scale(1.2)";
+        setTimeout(() => loader.style.display = "none", 800);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
